@@ -18,7 +18,16 @@ cross-session recovery is claimed. Backend permissions and document uniqueness
 remain authoritative. Shadow DOM isolates styles, not untrusted JavaScript.
 CI tests the model and builds the bundle; real browser checks are operator-run.
 See [acceptance evidence](docs/WEB-001-suppliers-acceptance.md).
-Receipts, supplier maintenance, production deployment and WEB-001 closure remain pending.
+Supplier maintenance, production deployment and WEB-001 closure remain pending.
+
+Reception now calls Workflow's start/get/resume APIs through the shell. ADMIN and
+INVENTORY can receive one medication/lot per document; SUPERVISOR can query saga
+IDs. Active supplier/medication selectors are paginated, not limited to one page.
+Uncertain start retains the body/key through view changes; replay is not resume.
+Only COMPLETED is reported as success. FAILED needs administrative review; this
+increment has no compensation control. See [receipt evidence](docs/WEB-001-reception-acceptance.md).
+The dev Workflow service token needs operator renewal from Security when expired.
+Supplier maintenance, production deployment and WEB-001 closure remain pending.
 
 ## Branching
 

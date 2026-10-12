@@ -29,7 +29,15 @@ increment has no compensation control. See [receipt evidence](docs/WEB-001-recep
 The dev Workflow service token needs operator renewal from Security when expired.
 Supplier maintenance, production deployment and WEB-001 closure remain pending.
 
-## Branching
+## Demo-inspired portal styling
+
+Portal headings, commands, fields, status badges and contained tables now align
+with the shell's visual reference. Supplier and reception forms use one mobile
+column; CSS remains inside Shadow DOM. Build dist/portal.js with npm run build
+for local shell use; generated dist remains ignored. Business models, permissions
+and replay semantics are unchanged. See [visual acceptance](docs/WEB-001-visual-acceptance.md).
+
+## Branching Policy
 
 Three permanent branches. **None of them accepts a direct commit** — you enter through a child
 branch and leave through a Pull Request.

@@ -3,15 +3,19 @@ import { createRoot } from 'react-dom/client';
 import { Plus, RefreshCw, ChevronLeft, ChevronRight, X, Save, Eye } from 'lucide-react';
 import { suppliersModel } from './model.js';
 import styles from './style.css';
+import { Reception } from './reception.jsx';
 function Suppliers({ context }) {
   const [state, setState] = useState(null);
   const [model] = useState(() => suppliersModel(context.request, setState, context.registration));
   const [draft, setDraft] = useState(() => context.registration.pending ? JSON.parse(context.registration.pending.body) : {});
   const view = state || model.snapshot();
+  const [receiving, setReceiving] = useState(!!context.reception?.pending);
   useEffect(() => { model.load(); return () => model.dispose(); }, [model]);
   const field = (name, label, maxLength, type = 'text', required = false) => <label key={name}>{label}<input name={name} type={type} maxLength={maxLength} required={required} pattern={name === 'documentNumber' ? '[A-Za-z0-9-]+' : undefined} value={draft[name] || ''} disabled={view.saving || view.locked} onChange={event => setDraft({ ...draft, [name]: event.target.value })}/></label>;
   return <section aria-labelledby="suppliers-title">
     <div className="heading"><div><p className="eyebrow">ABASTECIMIENTO</p><h1 id="suppliers-title">Proveedores</h1></div><div className="tools"><button title="Actualizar proveedores" aria-label="Actualizar proveedores" disabled={view.loading} onClick={() => model.load()}><RefreshCw size={18}/></button>{context.canCreate && !view.form && <button className="primary" onClick={() => { if (!context.registration.pending) setDraft({}); model.open(); }}><Plus size={18}/>Registrar proveedor</button>}</div></div>
+    {context.canReadReception && <button onClick={() => setReceiving(!receiving)}>{receiving ? 'Ocultar recepcion' : 'Recepcion de suministros'}</button>}
+    {receiving && <Reception context={context}/>}
     {view.form && context.canCreate && <form onSubmit={event => { event.preventDefault(); model.create(draft); }}>
       <h2>Registrar proveedor</h2><div className="fields">{field('documentNumber', 'Documento / NIT', 40, 'text', true)}{field('name', 'Nombre', 160, 'text', true)}{field('phone', 'Telefono (opcional)', 30, 'tel')}{field('email', 'Correo (opcional)', 254, 'email')}{field('address', 'Direccion (opcional)', 240)}</div>
       <p role="alert">{view.writeError}</p><div className="actions"><button disabled={view.saving || view.locked} type="button" onClick={() => model.close()}>Cancelar</button><button className="primary" disabled={view.saving} type="submit"><Save size={18}/>{view.saving ? 'Guardando...' : view.locked ? 'Reintentar registro' : 'Guardar proveedor'}</button></div>

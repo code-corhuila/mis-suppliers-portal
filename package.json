@@ -1,0 +1,7 @@
+{
+  "name": "mis-suppliers-portal", "private": true, "type": "module",
+  "scripts": { "test": "node --test tests/*.test.mjs", "build": "node build.mjs" },
+  "engines": { "node": ">=24" },
+  "dependencies": { "react": "19.3.0", "react-dom": "19.3.0", "lucide-react": "1.55.0" },
+  "devDependencies": { "esbuild-wasm": "0.28.2" }
+}
